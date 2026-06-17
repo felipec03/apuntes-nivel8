@@ -222,10 +222,23 @@ $n = 2, 4, 8, 16$.
     - $S(16) = \frac{100}{7,05} \approx \textbf{14,184}$
 
 (c) Identifique la fracción secuencial y paralelizable según la Ley de Amdahl.
-
-
+Anunciando ley de Amdahl:
+$$
+S(n) \leq \frac{1}{f + \frac{1-f}{n}}
+$$
+Sabiendo que $M=1000$, $t=0.1$, para $n=8$ y $o=0.05$
+$$
+\frac{100}{\frac{100}{8} + 0.05\cdot8} = \frac{1}{f + \frac{1-f}{8}}
+$$
 (d) Determine el número óptimo de hilos que maximiza el speedup.
-
+Idem a anterior, derivar a igualar a 0, si tomamamos $t, M, n$ cómo constantes.
+Sabiendo que $M=1000$, $t=0.1$, para $n=8$ y $o=0.05$
+$$
+\frac{dS(n)}{dn} = \frac{d}{dn} (\frac{M t n}{Mt + on^2}) = 0
+$$
+$$
+\frac{dS(n)}{dn} = \frac{d}{dn} (\frac{100n}{t\frac{M}{n} + on}) = 0
+$$
 
 (e) Discuta cómo el overhead afecta la aplicabilidad de la Ley de Amdahl.
 
