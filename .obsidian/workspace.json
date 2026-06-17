@@ -1,0 +1,222 @@
+{
+  "main": {
+    "id": "c8a34926c6788c41",
+    "type": "split",
+    "children": [
+      {
+        "id": "39cc279c9449262a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "db2296e23951561a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Sistemas Distribuidos y Paralelos/Guía 1.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Guía 1"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "32496fefe4abc559",
+    "type": "split",
+    "children": [
+      {
+        "id": "07bb903d9573feaf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cc0f014b57dc6a53",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "52534832f372c9dd",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "06cfb285c9e706e9",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "6459787bdeac2cb4",
+    "type": "split",
+    "children": [
+      {
+        "id": "fb91a5b37c6d5a09",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e2b6fd088fbc176f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Sistemas Distribuidos y Paralelos/Intro.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Intro"
+            }
+          },
+          {
+            "id": "68ff462272ad6e20",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Sistemas Distribuidos y Paralelos/Intro.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Intro"
+            }
+          },
+          {
+            "id": "0ee34a895d2cd5a4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "97c99a7bebef0b5c",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "0c336ef557aa133b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Sistemas Distribuidos y Paralelos/Intro.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Intro"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "obsidian-git:Open Git source control": false,
+      "omnisearch:Omnisearch": false,
+      "pdf-plus:PDF++: Toggle auto-copy": false,
+      "pdf-plus:PDF++: Toggle auto-focus": false,
+      "pdf-plus:PDF++: Toggle auto-paste": false
+    }
+  },
+  "active": "db2296e23951561a",
+  "lastOpenFiles": [
+    "Sistemas Distribuidos y Paralelos/guide.pdf",
+    "Análisis de Datos/PEP 1/Introducción al Análisis de Datos.md",
+    "Análisis de Datos/PEP 1/Técnicas de Agrupamiento.md",
+    "Análisis de Datos/PEP 1/Reducción de Dimensionalidad.md",
+    "Gestión de Servicios TI/Ejercicios tipo PEP 1.md",
+    "Sistemas Distribuidos y Paralelos/Guía 1.md",
+    "Untitled.base",
+    "Sistemas Distribuidos y Paralelos/Introducción.md",
+    "Análisis de Datos/PEP 1/Preparando PEP 1.md",
+    "Análisis de Datos/PEP 1",
+    "session-ses_22b5-plan-accion.md",
+    "Análisis de Datos/Tareas/Tarea 2.md",
+    "Gestión de Servicios TI/Gestión de Servicios TI.md",
+    "Gestión de Servicios TI",
+    "Ciberseguridad/Untitled.md",
+    "Análisis de Datos/Tareas",
+    "Ciberseguridad",
+    "Src/Pasted image 20260407143031.png",
+    "Src/Pasted image 20260407144746.png",
+    "Src/Pasted image 20260407143004.png",
+    "Src/Pasted image 20260407142741.png",
+    "Src/Pasted image 20260407142426.png",
+    "Src/Pasted image 20260407142319.png",
+    "Src",
+    "Análisis de Datos",
+    "Sistemas Distribuidos y Paralelos"
+  ]
+}
