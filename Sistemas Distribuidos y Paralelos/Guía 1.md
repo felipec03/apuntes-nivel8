@@ -52,7 +52,6 @@ $$S(8) = \frac{T(1)}{T(8)} \iff T(8) = \frac{150}{4.35}=34.48[s]$$
 Se acerca asintóticamente al tope teórico de $8.3$
 
 ### Ejercicio 2. Strong vs. weak y Amdahl vs. Gustafson
-
 > Un ordenamiento domina con $O(N log N)$ trabajo útil; inicialización y recogida de resultados suman un término $O(1)$ en tiempo despreciable frente a $N$ grande.
 
 *(a) Para $N = 2 · 10^3$ , suponga medido $f = 0,06$ (fracción serial del tiempo en un CPU). Calcule la cota de Amdahl S(16).*
@@ -75,7 +74,6 @@ S_G(p) = 0.06 + (1 - 0.06)\times 16
 $$
 "Este $15,1$ representa el _speedup_ que lograrías en un escenario de escalabilidad donde asumes que el trabajo paralelo dominó la ejecución al escalar los recursos a 16 procesadores."
 ### Ejercicio 3. Overhead lineal en p y eficiencia
-
 > Modelo didáctico (como en clase, con overhead agregado): tiempo de pared
 
 $$
@@ -134,7 +132,6 @@ Ahora, despejando $p$, tenemos que $p =60$
 - Superlinelidad implica $S(p) > p$, entonces $E(p) > 1$. 
 
 ### Ejercicio 4. Matrices: orden del trabajo y escalabilidad
-
 >Sea $T(1, N) = 2N^3+80$ (unidades de tiempo; el término $80$ modela fase serial fija). Paralelo ideal con overhead:
 
 $$
@@ -202,7 +199,6 @@ $$
 - **Deadlock**: Cuando dos o más hebras tienen recursos bloqueantes para las demas hebras
 - **Overhead de creación**: Tiempo que se demora crear/planificar hebras.
 ### Ejercicio 7. Análisis de Speedup en Programas Concurrentes
-
 > Considere un programa que procesa $M$ elementos independientes. La versión secuencial procesa cada elemento en $t$ segundos. La versión concurrente crea $n$ hilos, cada uno procesando aproximadamente $M/n$ elementos, pero introduce un overhead de sincronización de $o$ segundos por hilo.
 
 (a) Derive la fórmula del speedup considerando el overhead.
@@ -280,3 +276,122 @@ Sabiendo que:
 (b) Calcule el speedup real para n = 2, 4, 8, 16, 32. 
 (c) Compare con el speedup ideal de Amdahl (sin overhead). 
 (d) Analice el punto donde el overhead supera los beneficios del paralelismo.
+
+### Ejercicio 9. Balanceo de Carga y Speedup
+> En un programa concurrente con $n$ hilos, la carga puede estar desbalanceada. Suponga que:
+- Hilo $1$ procesa $w_1$ = $60$ unidades de trabajo
+- Hilos $2$ a $n$ procesan $w_i$ = $40$ unidades cada uno
+> Cada unidad toma $1$ segundo
+
+*(a) Calcule el tiempo de ejecución paralelo considerando que todos los hilos deben terminar.*
+Hay que tomar en cuenta el tiempo de ejecución de la primera hebra, luego agregar las otras hebras.
+$$
+T(n) = 60 \cdot 1[s] + 40n \cdot 1[s]
+$$
+Según el solucionario es:
+$$
+T(n) = \max{(W)}
+$$
+Con
+$$
+W = \{w_1, w_2, \dots, w_n \}
+$$
+Por ende sería el cuello de botella, la primera hebra 
+$$T_p = T(n) = 60[s]$$
+
+*(b) Calcule el speedup real vs. el speedup ideal (carga balanceada).*
+**Para el speedup real:**
+$$
+S(n) = \frac{T(1)}{T(n)}
+$$
+Ahora, se saca el trabajo total con una hebra
+$$
+T(1) = 60 + \sum_{i=2}^n 40 = 60 + 40(n-1) = 40n + 20.
+$$
+Con el resultado anterior entonces:
+$$
+S(n) = \frac{T(1)}{T(n)} = \frac{40n + 2}{60}
+$$
+
+**Para el speedup ideal:**
+La fracción no paralelizable es únicamente la primera hebra, que pasa a ser $f=0$
+$$
+S(n) = \frac{1}{f + \frac{1-f}{n}} \iff \frac{1}{0+ n^{-1}} = n
+$$
+También se puede hacer con la otra fórmula sabiendo que el tiempo para n hebras ideal es
+$$
+T_{ideal}(n) = \frac{40n+20}{n}
+$$
+Osea, que se pueda repartir el trabajo total equitativamente en $n$ hebras
+$$
+S(n) = \frac{T(1)}{T(n)} = \frac{40n + 20}{\frac{40n + 20}{n}} = n
+$$
+*(c) Derive una fórmula general para el speedup con desbalanceo.*
+Si tomamos nuevamente 
+$$T(n) = \max{w_n}$$
+Y además para, 
+$$T(1) = \sum_{1}^{n} w_i$$
+Entonces
+$$
+S(n) = \frac{\sum_{i=1}^{n} w_i}{\max(w_1, w_2, ..., w_n)}
+$$
+
+*(d) Discuta cómo el desbalanceo afecta la Ley de Amdahl.*
+
+# Open MP
+## Conceptos Fundamentales
+
+>[!INFO]
+>OpenMP es una API para implementar paralelismo en memoria compartida.
+
+- Se forman equipos de hebras -> La inicia una hebra maestra.
+- Ejecutan el mismo código de bloque
+## Ejercicios
+
+### Ejercicio 10. Análisis de Código: Suma de Vectores
+
+> Analice el siguiente código OpenMP que suma dos vectores:
+
+```c++
+# include <omp.h>
+void vector_sum(double *a, double *b, double *c, int n) {
+	# pragma omp parallel for
+	for (int i = 0; i < n; i++) {
+		c[i] = a[i] + b[i];
+	}
+}
+```
+
+(a) Identifique la fracción paralelizable y secuencial según la Ley de Amdahl. ¿Cuál es el
+speedup máximo teórico con $n$ hilos?
+Recordando Ley de Amdahl:
+$$
+S(n) \leq \frac{1}{f + \frac{1-f}{n}} \iff \lim_{n \to \infty} S(n) = \frac{1}{f}
+$$
+Si se tiene un for para $n$ hebras, donde cada una suma dos vectores $a$ y $b$ en uno final $c$. 
+Podemos asumir que crear las regiones en memoria y hacer las asignaciones iniciales prueba ser una sección serial, si no falla, se pude asumir que todo es paralelizabe, por ende $f=0$.
+
+(b) Si el tiempo de ejecución secuencial es $T_s = 1.0$ segundo para $N = 10^6$ elementos, y
+el overhead de creación de región paralela es $O = 0,001$ segundos, calcule el speedup
+real para $2, 4, 8$ y $16$ hilos.
+
+$$
+S(n) = \frac{1}{\frac{1}{n} + On}
+$$
+
+- $p = 2$**:** $T(2) = 0,5 + 0,001 = 0,501 \text{ s} \implies S(2) = \frac{1,0}{0,501} \approx \mathbf{1,996}$
+- $p = 4$**:** $T(4) = 0,25 + 0,001 = 0,251 \text{ s} \implies S(4) = \frac{1,0}{0,251} \approx \mathbf{3,984}$
+- $p = 8$**:** $T(8) = 0,125 + 0,001 = 0,126 \text{ s} \implies S(8) = \frac{1,0}{0,126} \approx \mathbf{7,936}$
+- $p = 16$**:** $T(16) = 0,0625 + 0,001 = 0,0635 \text{ s} \implies S(16) = \frac{1,0}{0,0635} \approx \mathbf{15,748}$
+
+(c) ¿Por qué el speedup real puede ser menor que el teórico de Amdahl? Identifique al
+menos tres factores.
+El speedup real puede ser menor por varios factores:
+- Overhead no definido
+- No se toma en cuenta el tamaño del problema cómo con Gustafson
+- Posibles secciones críticas/manejo de concurrencia
+
+(d) Si el tamaño del vector aumenta a N = 108
+
+, ¿cómo cambia la fracción secuencial?
+¿Qué ley (Amdahl o Gustafson) es más apropiada para analizar este caso?
