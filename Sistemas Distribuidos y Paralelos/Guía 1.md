@@ -232,13 +232,51 @@ $$
 $$
 (d) Determine el número óptimo de hilos que maximiza el speedup.
 Idem a anterior, derivar a igualar a 0, si tomamamos $t, M, n$ cómo constantes.
-Sabiendo que $M=1000$, $t=0.1$, para $n=8$ y $o=0.05$
+
 $$
 \frac{dS(n)}{dn} = \frac{d}{dn} (\frac{M t n}{Mt + on^2}) = 0
 $$
+
+Sabiendo que $M=1000$, $t=0.1$, para $n=8$ y $o=0.05$
 $$
 \frac{dS(n)}{dn} = \frac{d}{dn} (\frac{100n}{t\frac{M}{n} + on}) = 0
 $$
+Más todavía, sería equivalente minimizar el tiempo, por ende:
+$$
+\frac{dT(n)}{dn} = 0 = \frac{d(t\frac{M}{n} + on)}{dn} \iff \frac{d}{dn}(\frac{100}{n} + 0.05n) = 0 \iff -100n^{-2} + 0.05 = 0
+$$
+Despejando $n$
+$$
+-\frac{100}{n^2} + 0,05 = 0 \iff \frac{100}{n^2} = 0,05 \iff n = \sqrt{2000} \approx 44,72
+$$
+Finalmente, el óptimo, cómo no se pueden tener 44.7 hebras, el óptimo serían 45 hebras.
 
 (e) Discuta cómo el overhead afecta la aplicabilidad de la Ley de Amdahl.
+Viendo la formula tenemos que:
+$$
+S(n)=\frac{M t n}{Mt + on^2}
+$$
+Por ende, mientras más hebras se vayan introduciendo, el overhead va a influir de manera cuadrática inversa respecto del speedup.
+### Ejercicio 8. Modelado de Overhead de Sincronización
+> Un programa concurrente tiene las siguientes características: 
+> - Tiempo de cómputo puro: $Tcomp = 100$ segundos ($90\%$ paralelizable) 
+> - Tiempo de sincronización: $Tsync(n) = 5 log2(n)$ segundos
+> - Tiempo de creación de hilos: $Tcreate(n) = 0,1 · n$ segundos
 
+(a) Escriba la fórmula completa del tiempo de ejecución paralelo. 
+Del enunciado sabemos que $f = 0.9$ y $1-f =0.1$
+$$
+S(n) = \frac{1}{f + \frac{1-f}{n}} = \frac{100}{10 +\frac{90}{n} + 5 \log_2(n) + 0.1n} = \frac{T(1)}{T(n)}
+$$
+Realmente el tiempo paralelo es:
+$$
+T(n) = 10 +\frac{90}{n} + 5 \log_2(n) + 0.1n
+$$
+Sabiendo que:
+- El tiempo de cómputo total es $100$, siendo un $0.9$ paralelizable, son $90$ segundos paralelos
+- El tiempo de cómputo total es $100$, siendo un $0.1$ no paralelizable, son $10$ segundos seriales
+- Y sumando el overhead de sincronización y creación de hilos.
+
+(b) Calcule el speedup real para n = 2, 4, 8, 16, 32. 
+(c) Compare con el speedup ideal de Amdahl (sin overhead). 
+(d) Analice el punto donde el overhead supera los beneficios del paralelismo.
