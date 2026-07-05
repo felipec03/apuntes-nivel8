@@ -190,8 +190,6 @@ GFLOP/s = \frac{4}{1.92} = 2.083 [\frac{GFLOP}{s}]
 $$
 ### Ejercicio 6. Lectura de time (opcional)
 > Un proceso imprime `real` $40[s]$, `user` $120[s]$, `sys` $5[s]$. ¿Puede ser coherente en una máquina de 4 núcleos? Explique en una frase la diferencia entre real y user.
-
-
 # Concurrencia General
 ## Repaso
 - **Condición de carrera**: Dos o más hebras acceden a sección crítica por lo general modificando un recurso compartido.
@@ -273,7 +271,7 @@ Sabiendo que:
 - El tiempo de cómputo total es $100$, siendo un $0.1$ no paralelizable, son $10$ segundos seriales
 - Y sumando el overhead de sincronización y creación de hilos.
 
-(b) Calcule el speedup real para n = 2, 4, 8, 16, 32. 
+(b) Calcule el speedup real para $n = 2, 4, 8, 16, 32$. 
 (c) Compare con el speedup ideal de Amdahl (sin overhead). 
 (d) Analice el punto donde el overhead supera los beneficios del paralelismo.
 
@@ -391,7 +389,82 @@ El speedup real puede ser menor por varios factores:
 - No se toma en cuenta el tamaño del problema cómo con Gustafson
 - Posibles secciones críticas/manejo de concurrencia
 
-(d) Si el tamaño del vector aumenta a N = 108
-
-, ¿cómo cambia la fracción secuencial?
+(d) Si el tamaño del vector aumenta a $N = 10^8$ ¿cómo cambia la fracción secuencial?
 ¿Qué ley (Amdahl o Gustafson) es más apropiada para analizar este caso?
+
+En este caso, si el tamaño de problema aumenta, la fracción secuencial debería aumentar, si asumimos que la creación de variables/almacenamiento, cosas del compilador, etc... 
+Igual, asumiendo que OpenMP escala el tamaño del problema, osea, asumiendo weak-scaling, la ley de Gustafson debería ser la adecuada para modelar el speedup real del problema.
+
+### Ejercicio 11. Análisis de Código: Problemas de Paralelización
+
+Analice el siguiente código y responda:
+```c++
+double sum = 0.0;
+# pragma omp parallel for
+for (int i = 0; i < n; i++) {
+	sum += array[i];
+}
+```
+*(a) ¿Qué problema tiene este código? Explique el concepto de race condition.*
+
+Primero, una condición de carrera es cuando dos o más escribe escriben a un recurso compartido, osea, cuando dos o más hebras entran a una sección crítica.
+¿Por qué es un problema? La linea `sum += array[i]` no es una operación atómica, por ende puede ocurrir que una sobreescriba la variable compartida `sum` causando una distorsión en el valor final distinto al esperado con una versión serial.
+
+*(b) ¿Cuál sería el speedup esperado si este código se ejecutara sin corregir el problema?*
+*Justifique.*
+Si asumimos overhead mínimo por creación de hebras, o incluso negligible, idem a ejercicio 10.
+
+(c) Proponga dos soluciones diferentes usando OpenMP y explique cómo cada una afecta
+el overhead y, por tanto, el speedup.
+
+
+(d) Si el overhead de sincronización de una solución es $O_1 = 0,01 \cdot n$ y de la otra es
+$O_2 = 0,05 \cdot \log_2(n)$, calcule el speedup para cada solución con $n = 8$ hilos y $N = 10^6$ elementos (tiempo secuencial = $1.0[s]$).
+
+
+### Ejercicio 13
+Analice el siguiente código OpenMP para el producto matriz-vector y = Ax:
+```c++
+void matrix_vector_mult(double **A, double *x, double *y, int m, int n) {
+	# pragma omp parallel for schedule(static)
+	for (int i = 0; i < m; i++) {
+		y[i] = 0.0;
+		for (int j = 0; j < n; j++) {
+			y[i] += A[i][j] * x[j];
+	}
+}
+```
+*(a) Identifique qué bucle está paralelizado y explique por qué esta es una buena estrategia.*
+El bucle paralelizado cómo tal es el externo, que se encarga de inicializar el arreglo resultante, por ende, siguiendo la regla de multiplicación de matriz vector
+$$
+y_m = A_{m\times n} \times x_n = \begin{pmatrix} A & B \\ C & D \\ E & F \end{pmatrix} \times \begin{pmatrix} G  \\ H \end{pmatrix} = \begin{pmatrix}
+A \times G + B \times H \\
+C \times G + D \times H \\
+E \times G + F \times H \\
+\end{pmatrix}
+$$
+En este caso, cada una de las hebras es una componente del vector resultante final, por ende, cada hebra se encarga de hacer las multiplicaciones y sumas resultantes.
+**¿Por que es buena la solución?**: 
+- Como son operaciones conmutativas (suma y multiplicación), no hay condición de carrera
+- Si bien es una operación $O(n \times m)$, se está paralelizando el $O(m)$, minimizando overhead de creación, a diferencia si es paralelizara el loop interno.
+
+*(b) Si el tiempo secuencial es $T_s(m, n) = 2mn$ microsegundos, calcule el speedup teórico*
+*según Amdahl para una matriz $1000 \times 1000$ con $8$ hilos (asuma fracción secuencial*
+*despreciable).*
+Usando de nuevo la misma fórmula
+$$
+S(p) = \frac{T_s}{T_p(p)} \iff S(8) = \frac{2 \times 10^6}{}
+$$
+
+(c) Considere que el overhead de creación de región paralela es $O = 100$ microsegundos.
+Calcule el speedup real para matrices de tamaño $100×100$, $1000×1000$ y $10000×10000$
+con $8$ hilos.
+
+
+(d) Analice cómo el tamaño de la matriz afecta el speedup. ¿Qué ley (Amdahl o Gustafson)
+describe mejor este comportamiento? Justifique.
+
+
+(e) Si cambiáramos a schedule(dynamic), ¿cómo afectaría esto al overhead y al speedup?
+Explique.
+
