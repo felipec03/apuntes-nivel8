@@ -453,7 +453,8 @@ En este caso, cada una de las hebras es una componente del vector resultante fin
 *despreciable).*
 Usando de nuevo la misma fórmula
 $$
-S(p) = \frac{T_s}{T_p(p)} \iff S(8) = \frac{2 \times 10^6}{}
+S(p) = \frac{T_s}{T_p(p)} = S(p, m, n) = \frac{2 m n}{\frac{m}{p} n} \iff S(8) = \frac{2 \times 10^6}{\frac{2 \times 10^6}{8
+}}
 $$
 
 (c) Considere que el overhead de creación de región paralela es $O = 100$ microsegundos.
